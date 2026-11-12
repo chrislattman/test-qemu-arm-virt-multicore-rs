@@ -1,6 +1,6 @@
 # no_std Rust example for QEMU ARM "virt" machine with two Cortex-A53 cores
 
-The Rust counterpart of [test-qemu-arm-virt-multicore](../test-qemu-arm-virt-multicore), and a two-core version of [test-qemu-arm-virt-rs](../test-qemu-arm-virt-rs). Each core runs its own image from its own private 2 MB block of RAM, and has its own MMU translation tables that map only its own block, a shared block and (core 0 only) the devices. If either core touches the other core's block, it gets a translation fault.
+Each core runs its own image from its own private 2 MB block of RAM, and has its own MMU translation tables that map only its own block, a shared block and (core 0 only) the devices. If either core touches the other core's block, it gets a translation fault.
 
 - Core 0 owns the UART and the GIC (through the `arm-pl011-uart` and `arm-gic` crates, as in the single-core version). It runs the same Hello/World loop and SGI cascade, starts core 1, and prints core 1's messages.
 - Core 1 uses no peripherals. It posts a message to a mailbox in the shared block every 3 seconds, and core 0 prints it after each loop iteration (every 2 seconds), so core 1's messages can appear up to 2 seconds late.
