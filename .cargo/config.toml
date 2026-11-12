@@ -1,0 +1,24 @@
+[build]
+# softfloat: never use the FP/SIMD registers (the FPU is off at EL1, and
+# irq_entry doesn't save them), like -mgeneral-regs-only in C
+target = "aarch64-unknown-none-softfloat"
+
+[target.aarch64-unknown-none-softfloat]
+# Cargo appends core0's ELF path to the runner. qemu.sh builds core1 too, then starts QEMU with both.
+# In another shell: telnet localhost 5678
+# Quit qemu: (qemu) quit
+# Quit telnet: Ctrl + ] -> telnet> quit
+runner = ["./qemu.sh"]
+
+[alias]
+qemu = ["run", "--release"]
+
+# Debug build; halts and waits for GDB on localhost:1234
+# In another shell:
+#   gdb-multiarch -q ./target/aarch64-unknown-none-softfloat/debug/core0
+#   (gdb) add-symbol-file ./target/aarch64-unknown-none-softfloat/debug/core1
+#   (gdb) target remote localhost:1234
+#   (gdb) break core1::main_app
+#   (gdb) continue
+# In another shell: telnet localhost 5678
+qemu-debug = ["run", "--config", "target.aarch64-unknown-none-softfloat.runner=['./qemu.sh','--gdb']"]

@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Rust: Remote Attach",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/target/aarch64-unknown-none-softfloat/debug/core0",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb-multiarch",
+            "miDebuggerServerAddress": "localhost:1234",
+            "postRemoteConnectCommands": [
+                {
+                    "text": "add-symbol-file ${workspaceFolder}/target/aarch64-unknown-none-softfloat/debug/core1"
+                },
+                {
+                    "text": "set scheduler-locking step"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+[package]
+name = "test-qemu-arm-virt-multicore-rs"
+version = "0.1.0"
+edition = "2024"
+default-run = "core0"
+
+# One image per core, each linked into its own private block (see build.rs)
+[[bin]]
+name = "core0"
+path = "core0.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "core1"
+path = "core1.rs"
+test = false
+bench = false
+
+[dependencies]
+arm-gic = "0.10.0"
+arm-pl011-uart = "0.5.1"
